@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -23,8 +24,10 @@ public class LibraryMain {
     public Drive drive;
 
     public Telemetry telemetry;
+
     public DcMotor motorFL, motorFR, motorBL, motorBR;
 
+    public static DcMotor[] allMotors;
     public Servo servo1;
 
     public boolean leftToggleToggle;
@@ -37,6 +40,8 @@ public class LibraryMain {
 
         this.telemetry = opMode.telemetry;
 
+        setUpHardware();
+
     }
 
     public LibraryMain(LinearOpMode opMode, Drive type) {
@@ -48,6 +53,18 @@ public class LibraryMain {
         telemetry = opMode.telemetry;
 
         drive = type;
+
+        setUpHardware();
+    }
+
+    public void resetDriveEncoders() {
+
+        for (DcMotor x : allMotors) {
+
+            x.setPower(0);
+
+        }
+
     }
 
     public void setUpHardware() {
@@ -64,6 +81,9 @@ public class LibraryMain {
                 motorBR = hwMap.dcMotor.get("motorBR");
 
                 //declaring name of servos to hwMap
+
+                motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+                motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
 
                 servo1 = hwMap.servo.get("servo1");
         }
