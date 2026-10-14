@@ -114,6 +114,4 @@ public class LibraryMain {
             }
         }
     }
-
-   // public void resetDriveEncoders() {}
 }
