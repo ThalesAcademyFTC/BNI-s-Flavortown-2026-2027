@@ -25,6 +25,17 @@ public class LibraryTeleOp {
         main.motorFR.setPower(motorFRPower);
         main.motorBR.setPower(motorBRPower);
     }
+
+    //launch
+
+    //intake?
+
+    //flower function
+
+    //automatic liner upper (for shooting)
+
+
+
 }   //leftDoubleDouble
 // robot.explode();
 
