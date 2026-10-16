@@ -53,6 +53,10 @@ public class LibrarySensor {
 
             color = colorValues.PURPLE;
 
+        } else if (blue > 200) {
+
+            color = colorValues.BLUE;
+
         }
 
         return color;

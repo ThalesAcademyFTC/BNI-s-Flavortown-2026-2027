@@ -61,16 +61,6 @@ public class LibraryMain {
         setUpHardware();
     }
 
-    public void resetDriveEncoders() {
-
-        for (DcMotor x : allMotors) {
-
-            x.setPower(0);
-
-        }
-
-    }
-
     public void setUpHardware() {
         switch (drive) {
 
@@ -115,5 +105,14 @@ public class LibraryMain {
         }
     }
 
-   // public void resetDriveEncoders() {}
+    public void resetDriveEncoders() {
+
+        for (DcMotor x : allMotors) {
+
+            x.setPower(0);
+            x.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            x.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+    }
+
 }
