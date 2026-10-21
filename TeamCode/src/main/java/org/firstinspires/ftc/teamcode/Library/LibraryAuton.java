@@ -7,25 +7,31 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class LibraryAuton {
 
-    public LibraryMain LibraryMain;
+    public LibraryMain libraryMain;
+
+    public LibraryTeleOp libraryTeleOp;
 
     double ticksPerInch = 50;
 
-    public LibraryAuton(LibraryMain LibraryMain) {
+    double ticksPerDegree = (double) 500 /45;
 
-        this.LibraryMain = LibraryMain;
+    public LibraryAuton(LibraryMain LibraryMain, LibraryTeleOp libraryTeleOp) {
+
+        this.libraryMain = LibraryMain;
+
+        this.libraryTeleOp = libraryTeleOp;
 
     }
     public void moveForward(double inches, double speed){
 
         int TickTarget = (int) Math.round(inches * ticksPerInch);
 
-        LibraryMain.resetDriveEncoders();
+        libraryMain.resetDriveEncoders();
 
-        LibraryMain.motorBL.setTargetPosition(TickTarget);
-        LibraryMain.motorBR.setTargetPosition(TickTarget);
-        LibraryMain.motorFL.setTargetPosition(TickTarget);
-        LibraryMain.motorFR.setTargetPosition(TickTarget);
+        libraryMain.motorBL.setTargetPosition(TickTarget);
+        libraryMain.motorBR.setTargetPosition(TickTarget);
+        libraryMain.motorFL.setTargetPosition(TickTarget);
+        libraryMain.motorFR.setTargetPosition(TickTarget);
 
         for (DcMotor x : allMotors){
             x.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -38,9 +44,9 @@ public class LibraryAuton {
             x.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
 
-        LibraryMain.waitForMotors();
+        libraryMain.waitForMotors();
 
-        LibraryMain.resetDriveEncoders();
+        libraryMain.resetDriveEncoders();
     }
 
     public void moveBackward(double inches, double speed){
@@ -51,12 +57,12 @@ public class LibraryAuton {
 
         int TickTarget = (int) Math.round(inches * ticksPerInch);
 
-        LibraryMain.resetDriveEncoders();
+        libraryMain.resetDriveEncoders();
 
-        LibraryMain.motorBL.setTargetPosition(-TickTarget);
-        LibraryMain.motorBR.setTargetPosition(TickTarget);
-        LibraryMain.motorFL.setTargetPosition(TickTarget);
-        LibraryMain.motorFR.setTargetPosition(-TickTarget);
+        libraryMain.motorBL.setTargetPosition(-TickTarget);
+        libraryMain.motorBR.setTargetPosition(TickTarget);
+        libraryMain.motorFL.setTargetPosition(TickTarget);
+        libraryMain.motorFR.setTargetPosition(-TickTarget);
 
         for (DcMotor x : allMotors){
             x.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -69,9 +75,9 @@ public class LibraryAuton {
             x.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
 
-        LibraryMain.waitForMotors();
+        libraryMain.waitForMotors();
 
-        LibraryMain.resetDriveEncoders();
+        libraryMain.resetDriveEncoders();
 
     }
 
@@ -79,7 +85,34 @@ public class LibraryAuton {
         moveRight(-inches, speed);
     }
 
+    public void turnRight(double degrees, double speed){
 
+        int TickTarget = (int) Math.round(degrees * ticksPerDegree);
+
+        libraryMain.resetDriveEncoders();
+
+        libraryMain.motorFL.setTargetPosition(TickTarget);
+        libraryMain.motorFR.setTargetPosition(-TickTarget);
+        libraryMain.motorBL.setTargetPosition(TickTarget);
+        libraryMain.motorBR.setTargetPosition(-TickTarget);
+
+        libraryTeleOp.robotMovement(0,0,speed);
+
+        for (DcMotor x : allMotors) {
+
+            x.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        }
+
+
+        libraryMain.waitForMotors();
+
+        libraryMain.resetDriveEncoders();
+
+
+    }
+
+    public void turnLeft (double degrees, double speed) {turnRight(-degrees, speed); }
 
     /*
     -launcher

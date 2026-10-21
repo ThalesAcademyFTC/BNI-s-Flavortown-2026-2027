@@ -217,6 +217,62 @@ public class LibraryCamera {
         return tagOrientation;
     }
 
+    public AprilTagPoseFtc tagReferencePositionFromBlue() {
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        AprilTagPoseFtc tagOrientation = null;
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection.metadata != null) {
+                libraryMain.telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+                // Only use tags that don't have Obelisk in them
+                if (detection.metadata.name.contains("Blue")) {
+                    tagOrientation = detection.ftcPose;
+                    libraryMain.telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
+                            detection.ftcPose.x,
+                            detection.ftcPose.y,
+                            detection.ftcPose.z));
+                    libraryMain.telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)",
+                            detection.ftcPose.pitch,
+                            detection.ftcPose.roll,
+                            detection.ftcPose.yaw));
+                }
+            }
+            else {
+                libraryMain.telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+                libraryMain.telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+            }
+        }
+        return tagOrientation;
+    }
+
+    public AprilTagPoseFtc tagReferencePositionFromRed() {
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        AprilTagPoseFtc tagOrientation = null;
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection.metadata != null) {
+                libraryMain.telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+                // Only use tags that don't have Obelisk in them
+                if (detection.metadata.name.contains("Red")) {
+                    tagOrientation = detection.ftcPose;
+                    libraryMain.telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
+                            detection.ftcPose.x,
+                            detection.ftcPose.y,
+                            detection.ftcPose.z));
+                    libraryMain.telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)",
+                            detection.ftcPose.pitch,
+                            detection.ftcPose.roll,
+                            detection.ftcPose.yaw));
+                }
+            }
+            else {
+                libraryMain.telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+                libraryMain.telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+            }
+        }
+        return tagOrientation;
+    }
+
+
+
     public void triangulatePosition(double speed) {
         AprilTagPoseFtc pose1;
 
@@ -227,9 +283,8 @@ public class LibraryCamera {
 
         while (!linearOpMode.isStopRequested()) {
 
-            //pose1 = tagRedHive/tagBlueHive
-
-            double turnDistance = (90 - pose1.bearing) + pose1.bearing;
+            pose1 = tagReferencePositionFromBlue();
+            // double turnDistance = (90 - pose1.bearing) + pose1.bearing;
 
             if (librarySensor.isColorRGB() == (LibrarySensor.colorValues.BLUE) || (librarySensor.isColorRGB() == LibrarySensor.colorValues.RED)) {
 
