@@ -4,6 +4,7 @@ import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import static android.os.SystemClock.sleep;
 
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -284,19 +285,24 @@ public class LibraryCamera {
         while (!linearOpMode.isStopRequested()) {
 
             pose1 = tagReferencePositionFromBlue();
-            // double turnDistance = (90 - pose1.bearing) + pose1.bearing;
+            //we dont know theta2?????? (im so not locked in)
+            double turnDistance = Math.asin(Math.cos(pose1.bearing));
+            double horizontalMove = (pose1.y*Math.cos(pose1.bearing));
+            //turn until bearing is 90-theta1?
 
             if (librarySensor.isColorRGB() == (LibrarySensor.colorValues.BLUE) || (librarySensor.isColorRGB() == LibrarySensor.colorValues.RED)) {
 
-                double nectarDistance = pose1.x * Math.tan((90 - pose1.bearing) - pose1.bearing) - (3.6 + 0);
+                double nectarDistance = (((pose1.y*pose1.y) - ((pose1.y*Math.cos(pose1.bearing))*(pose1.y*Math.cos(pose1.bearing)))) - (3.6 + 0));
 
-                /*
 
-                libraryAuton.turn(turnDistance);
 
-                Need to determine which way to turn in the function
+                libraryAuton.turn(LibraryAuton.Direction.RIGHT,turnDistance, speed);
 
-                 */
+                //Need to determine which way to turn in the function
+
+                libraryAuton.move(LibraryAuton.Direction.RIGHT, horizontalMove, speed);
+
+                sleep(500);
 
                 libraryAuton.moveForward(nectarDistance, speed);
 
@@ -306,15 +312,15 @@ public class LibraryCamera {
 
             } else {
 
-                double pollenDistance = pose1.x * Math.tan((90 - pose1.bearing) - pose1.bearing) - (2.8 + 0);
+                double pollenDistance = (((pose1.y*pose1.y) - ((pose1.y*Math.cos(pose1.bearing))*(pose1.y*Math.cos(pose1.bearing)))) - (2.8 + 0));
 
-                /*
+                libraryAuton.turn(LibraryAuton.Direction.RIGHT,turnDistance, speed);
 
-                libraryAuton.turn(turnDistance);
+                //Need to determine which way to turn in the function
 
-                Need to determine which way to turn in the function
+                libraryAuton.move(LibraryAuton.Direction.RIGHT, horizontalMove, speed);
 
-                 */
+                sleep(500);
 
                 libraryAuton.moveForward(pollenDistance, speed);
 

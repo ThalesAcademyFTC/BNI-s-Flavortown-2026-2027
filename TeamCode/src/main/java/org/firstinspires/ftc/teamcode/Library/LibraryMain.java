@@ -8,8 +8,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import static android.os.SystemClock.sleep;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import java.sql.Time;
 
 public class LibraryMain {
     public HardwareMap hwMap;
@@ -114,5 +117,4 @@ public class LibraryMain {
             x.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     }
-
 }

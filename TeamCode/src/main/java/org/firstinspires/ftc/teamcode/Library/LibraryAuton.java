@@ -22,6 +22,17 @@ public class LibraryAuton {
         this.libraryTeleOp = libraryTeleOp;
 
     }
+    public enum Direction {
+
+        FORWARD,
+
+        BACKWARD,
+
+        LEFT,
+
+        RIGHT;
+
+    }
     public void moveForward(double inches, double speed){
 
         int TickTarget = (int) Math.round(inches * ticksPerInch);
@@ -113,6 +124,42 @@ public class LibraryAuton {
     }
 
     public void turnLeft (double degrees, double speed) {turnRight(-degrees, speed); }
+
+    public void move(Direction direction, double inches, double speed) {
+
+        if (direction == Direction.FORWARD) {
+
+            moveForward(inches, speed);
+
+        } else if (direction == Direction.BACKWARD) {
+
+            moveBackward(inches, speed);
+
+        } else if (direction == Direction.RIGHT) {
+
+            moveRight(inches, speed);
+
+        } else {
+
+            moveLeft(inches, speed);
+
+        }
+
+    }
+
+    public void turn(Direction direction, double degrees, double speed) {
+
+        if (direction == Direction.RIGHT) {
+
+            turnRight(degrees, speed);
+
+        } else {
+
+            turnLeft(degrees, speed);
+
+        }
+
+    }
 
     /*
     -launcher
