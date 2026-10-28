@@ -12,7 +12,7 @@ public class Teleop extends OpMode {
 
      @Override
      public void init() {
-
+          LibraryMain libraryMain;
      }
 
      @Override

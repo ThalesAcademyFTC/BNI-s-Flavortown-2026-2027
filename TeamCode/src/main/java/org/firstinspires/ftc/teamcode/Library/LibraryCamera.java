@@ -298,7 +298,7 @@ public class LibraryCamera {
 
                 libraryAuton.turn(LibraryAuton.Direction.RIGHT,turnDistance, speed);
 
-                //Need to determine which way to turn in the function
+                //Need to determine which way to turn in the function gegegegegeggeggegegegegehegjeehjheejejehj
 
                 libraryAuton.move(LibraryAuton.Direction.RIGHT, horizontalMove, speed);
 
