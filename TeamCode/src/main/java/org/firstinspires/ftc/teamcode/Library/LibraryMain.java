@@ -85,9 +85,9 @@ public class LibraryMain {
                 motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
                 motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
 
-                servo1 = hwMap.servo.get("servo1");
+               // servo1 = hwMap.servo.get("servo1");
 
-                colorSensor = (RevColorSensorV3) hwMap.colorSensor.get("colorSensor");
+                //colorSensor = (RevColorSensorV3) hwMap.colorSensor.get("colorSensor");
         }
 
 

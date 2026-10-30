@@ -33,6 +33,18 @@ public class LibraryAuton {
         RIGHT;
 
     }
+
+    public enum diagonalMove {
+
+        FR,
+
+        FL,
+
+        BL,
+
+        BR;
+
+    }
     public void moveForward(double inches, double speed){
 
         int TickTarget = (int) Math.round(inches * ticksPerInch);
@@ -49,7 +61,7 @@ public class LibraryAuton {
         }
 
 
-/*        driverCentricMovement.driverMovement(0, speed, 0);     */
+        libraryTeleOp.robotMovement(0, speed, 0);
 
         for (DcMotor x : allMotors) {
             x.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -80,7 +92,7 @@ public class LibraryAuton {
         }
 
 
-        /*        driverCentricMovement.driverMovement(0, speed, 0);     */
+        libraryTeleOp.robotMovement(speed, 0, 0);
 
         for (DcMotor x : allMotors) {
             x.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -107,7 +119,7 @@ public class LibraryAuton {
         libraryMain.motorBL.setTargetPosition(TickTarget);
         libraryMain.motorBR.setTargetPosition(-TickTarget);
 
-        libraryTeleOp.robotMovement(0,0,speed);
+        libraryTeleOp.robotMovement(0,0, speed);
 
         for (DcMotor x : allMotors) {
 
@@ -124,6 +136,31 @@ public class LibraryAuton {
     }
 
     public void turnLeft (double degrees, double speed) {turnRight(-degrees, speed); }
+
+    public void moveDiagonal(diagonalMove direction, double inches, double speed) {
+
+        if (direction == diagonalMove.FR) {
+
+            move(Direction.FORWARD, inches, speed);
+            move(Direction.RIGHT, inches, speed);
+
+        } else if (direction == diagonalMove.FL) {
+
+            move(Direction.FORWARD, inches, speed);
+            move(Direction.LEFT, inches,speed);
+
+        } else if (direction == diagonalMove.BL) {
+
+            move(Direction.BACKWARD, inches, speed);
+            move(Direction.LEFT, inches, speed);
+        } else {
+
+            move(Direction.BACKWARD, inches, speed);
+            move(Direction.RIGHT, inches, speed);
+
+        }
+
+    }
 
     public void move(Direction direction, double inches, double speed) {
 
