@@ -163,10 +163,12 @@ public class LibraryAuton {
 
     /*
     -launcher
+    -Maybe different intensities for launcher?
     -color sensor (specifically important colors like blue)
     -april tag function (finding the location of the hive?)
     -Liner upper 2.0 ^
     -direction functions
     -odometry
+    -
      */
 }

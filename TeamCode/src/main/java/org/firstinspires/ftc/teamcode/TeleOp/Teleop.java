@@ -34,7 +34,7 @@ public class Teleop extends OpMode {
 
          libraryMain = new LibraryMain(this, LibraryMain.Drive.MAIN);
 
-         librarySensor = new LibrarySensor(libraryMain);
+         librarySensor = new LibrarySensor(libraryMain, libraryTeleOp, libraryAuton);
 
          libraryAuton = new LibraryAuton(libraryMain, libraryTeleOp);
 

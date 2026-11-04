@@ -131,7 +131,7 @@ public class LibraryCamera {
         aprilTag = new AprilTagProcessor.Builder().setCameraPose(cameraPosition, cameraOrientation).build();
 
         if (useWebcam) {
-            builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1"));
+            builder.setCamera(hwMap.get(WebcamName.class, "Webcam"));
             //visionPortal = VisionPortal.easyCreateWithDefaults(hwMap.get(WebcamName.class, "Logitech Webcam"));
         } else {
             builder.setCamera(BuiltinCameraDirection.BACK);
@@ -298,7 +298,7 @@ public class LibraryCamera {
 
                 libraryAuton.turn(LibraryAuton.Direction.RIGHT,turnDistance, speed);
 
-                //Need to determine which way to turn in the function gegegegegeggeggegegegegehegjeehjheejejehj
+                //Need to determine which way to turn in the function
 
                 libraryAuton.move(LibraryAuton.Direction.RIGHT, horizontalMove, speed);
 

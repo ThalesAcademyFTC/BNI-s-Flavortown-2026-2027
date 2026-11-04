@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Library;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -36,6 +37,8 @@ public class LibraryMain {
     public Servo servo1;
 
     public RevColorSensorV3 colorSensor;
+
+    public Rev2mDistanceSensor distanceSensor;
 
     public boolean leftToggleToggle;
 

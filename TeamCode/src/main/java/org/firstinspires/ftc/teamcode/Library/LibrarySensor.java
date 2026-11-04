@@ -2,9 +2,15 @@ package org.firstinspires.ftc.teamcode.Library;
 
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 public class LibrarySensor {
 
-    public LibraryMain LibraryMain;
+    public LibraryMain libraryMain;
+
+    public LibraryTeleOp libraryTeleOp;
+
+    public LibraryAuton libraryAuton;
 
     public enum colorValues {
 
@@ -28,20 +34,50 @@ public class LibrarySensor {
 
     public colorValues colors;
 
-    public LibrarySensor(LibraryMain LibraryMain) {
+    public LibrarySensor(LibraryMain libraryMain, LibraryTeleOp libraryTeleOp, LibraryAuton libraryAuton) {
 
-        this.LibraryMain = LibraryMain;
+        this.libraryMain = libraryMain;
+
+        this.libraryAuton = libraryAuton;
+
+        this.libraryTeleOp = libraryTeleOp;
 
     }
 
+    public double distanceFrom() {
+
+        return libraryMain.distanceSensor.getDistance(DistanceUnit.CM);
+
+    }
+
+    public void turnUntilPollen(double turnDistance, double distance) {
+
+         if (isColorRGB() != colorValues.YELLOW) {
+
+             if (((turnDistance <= distanceFrom() + 2) && (turnDistance >= distanceFrom() - 2))) {
+
+                 libraryAuton.moveForward(distance,.5);
+
+             } else if (turnDistance <= distanceFrom() + 2) {
+
+                 libraryAuton.turn(LibraryAuton.Direction.LEFT, 1, .3);
+
+             } else {
+
+                 libraryAuton.turn(LibraryAuton.Direction.RIGHT, 1, .3);
+
+             }
+         }
+    }
+    //Liam, Sophia [NO MIDDLE NAME] Foster, and Ryan
     public colorValues isColorRGB() {
 
-        NormalizedRGBA rgba = LibraryMain.colorSensor.getNormalizedColors();
+        NormalizedRGBA rgba = libraryMain.colorSensor.getNormalizedColors();
 
-        int red = LibraryMain.colorSensor.red();
-        int blue = LibraryMain.colorSensor.blue();
-        int green = LibraryMain.colorSensor.green();
-        int alpha = LibraryMain.colorSensor.alpha();
+        int red = libraryMain.colorSensor.red();
+        int blue = libraryMain.colorSensor.blue();
+        int green = libraryMain.colorSensor.green();
+        int alpha = libraryMain.colorSensor.alpha();
 
         colorValues color = colorValues.UNKNOWN;
 
@@ -56,6 +92,10 @@ public class LibrarySensor {
         } else if (blue > 200) {
 
             color = colorValues.BLUE;
+
+        } else if ((red > blue) && (green < 100)) {
+
+            color = colorValues.YELLOW;
 
         }
 

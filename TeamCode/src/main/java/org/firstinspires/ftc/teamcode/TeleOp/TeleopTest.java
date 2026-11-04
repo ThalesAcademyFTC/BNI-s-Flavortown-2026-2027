@@ -3,34 +3,45 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Library.LibraryAuton;
+import org.firstinspires.ftc.teamcode.Library.LibraryCamera;
 import org.firstinspires.ftc.teamcode.Library.LibraryMain;
+import org.firstinspires.ftc.teamcode.Library.LibrarySensor;
 import org.firstinspires.ftc.teamcode.Library.LibraryTeleOp;
 
 
 @TeleOp
 public class TeleopTest extends OpMode {
 
-    public LibraryMain main;
+    public LibraryMain libraryMain;
     public LibraryTeleOp libraryTeleOp;
+    public LibraryCamera libraryCamera;
+    public LibrarySensor librarySensor;
+
+    public LibraryAuton libraryAuton;
 
     double speed = 1;
 
 
     public void init() {
 
-        main = new LibraryMain(this, LibraryMain.Drive.MAIN);
+        libraryMain = new LibraryMain(this, LibraryMain.Drive.MAIN);
 
-        libraryTeleOp = new LibraryTeleOp(main);
+        libraryTeleOp = new LibraryTeleOp(libraryMain);
 
+        libraryAuton = new LibraryAuton(libraryMain, libraryTeleOp);
+
+        librarySensor = new LibrarySensor(libraryMain, libraryTeleOp, libraryAuton);
+
+        libraryCamera = new LibraryCamera(this, libraryMain, librarySensor, libraryAuton);
+
+        libraryCamera.initializeAprilTag();
     }
 
 
     public void loop() {
 
-        double x = (gamepad1.left_stick_x);
-        double y = (-gamepad1.left_stick_y);
-        double turn = (gamepad1.right_stick_x*.5);
+        libraryCamera.detectID();
 
-        libraryTeleOp.robotMovement(x,y,turn);
     }
 }
