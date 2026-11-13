@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -24,6 +25,8 @@ public class Teleop extends OpMode {
 
      public LibraryAuton libraryAuton;
 
+     public Limelight3A limelight;
+
      public AprilTagPoseFtc pose;
 
      double speed = .4;
@@ -38,7 +41,7 @@ public class Teleop extends OpMode {
 
          libraryAuton = new LibraryAuton(libraryMain, libraryTeleOp);
 
-         libraryCamera = new LibraryCamera(this, libraryMain,librarySensor,libraryAuton);
+         libraryCamera = new LibraryCamera(this, libraryMain,librarySensor,libraryAuton,limelight);
 
          libraryTeleOp = new LibraryTeleOp(libraryMain);
 

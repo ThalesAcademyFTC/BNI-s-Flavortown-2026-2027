@@ -1,26 +1,28 @@
 package org.firstinspires.ftc.teamcode.Library;
 
-import android.util.Size;
-
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import static android.os.SystemClock.sleep;
 
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.Library.LibraryMain;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagPoseFtc;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import com.qualcomm.hardware.limelightvision.Limelight3A;
+
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -31,7 +33,7 @@ import java.util.List;
 public class LibraryCamera {
 
     public LibraryMain libraryMain;
-
+    public Limelight3A limelight;
     public HardwareMap hwMap;
 
     public AprilTagProcessor aprilTag;
@@ -46,11 +48,15 @@ public class LibraryCamera {
 
     public Telemetry telemetry;
 
+    public VisionPortal visionPortal;
+
     final static double armLength = 0;
 
     double widthObject = 2.8;
 
-    public LibraryCamera (OpMode opMode, LibraryMain libraryMain, LibrarySensor librarySensor, LibraryAuton libraryAuton) {
+
+
+    public LibraryCamera (OpMode opMode, LibraryMain libraryMain, LibrarySensor librarySensor, LibraryAuton libraryAuton, Limelight3A limelight) {
 
         this.hwMap = opMode.hardwareMap;
 
@@ -59,6 +65,8 @@ public class LibraryCamera {
         this.librarySensor = librarySensor;
 
         this.libraryAuton = libraryAuton;
+
+        this.limelight = limelight;
 
         this.opMode = opMode;
 
@@ -116,9 +124,7 @@ public class LibraryCamera {
 
     }
 
-    public static final boolean useWebcam = true;
-
-    VisionPortal.Builder builder = new VisionPortal.Builder();
+    public static final boolean USE_WEBCAM = true;
 
     private Position cameraPosition = new Position(DistanceUnit.INCH,
             5, 2, 3.75, 0);
@@ -127,27 +133,27 @@ public class LibraryCamera {
 
 
     public void initializeAprilTag() {
-
-        aprilTag = new AprilTagProcessor.Builder().setCameraPose(cameraPosition, cameraOrientation).build();
-
-        if (useWebcam) {
-            builder.setCamera(hwMap.get(WebcamName.class, "Webcam"));
-            //visionPortal = VisionPortal.easyCreateWithDefaults(hwMap.get(WebcamName.class, "Logitech Webcam"));
-        } else {
-            builder.setCamera(BuiltinCameraDirection.BACK);
-        }
-
-        Size size = new Size(1280, 720);
-
-        builder.addProcessor(aprilTag).setCameraResolution(size);
-
-        //builder.addProcessor(aprilTag);
-
-        VisionPortal visionPortal = builder.build();
-
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        limelight.setPollRateHz(100); // Sets to check for data 100 times every second
+        limelight.start(); // Tells Limelight to start looking
 
     }
 
+    public LLResult getDetections() {
+
+        LLResult result = limelight.getLatestResult();
+        if (result != null && result.isValid()) {
+            double tx = result.getTx(); // How far left or right the target is (degrees)
+            double ty = result.getTy(); // How far up or down the target is (degrees)
+            double ta = result.getTa(); // How big the target looks (0%-100% of the image)
+            telemetry.addData("Target X", tx);
+            telemetry.addData("Target Y", ty);
+            telemetry.addData("Target Area", ta);
+        } else {
+            telemetry.addData("Limelight", "No Targets");
+        }
+        return result;
+    }
     public detectedId detectID() {
         detectedId idDetected = detectedId.UNKNOWN;
         ArrayList<org.firstinspires.ftc.vision.apriltag.AprilTagDetection> currentDetections = aprilTag.getDetections();

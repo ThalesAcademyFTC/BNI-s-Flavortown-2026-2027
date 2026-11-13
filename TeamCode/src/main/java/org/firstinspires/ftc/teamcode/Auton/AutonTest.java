@@ -33,7 +33,7 @@ public class AutonTest extends LinearOpMode {
 
         libraryCamera = new LibraryCamera(this ,libraryMain, librarySensor, libraryAuton);
 
-        librarySensor = new LibrarySensor(libraryMain);
+        librarySensor = new LibrarySensor(libraryMain, libraryTeleOp, libraryAuton);
 
         libraryTeleOp = new LibraryTeleOp(libraryMain);
 
