@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Library;
 
+import com.qualcomm.hardware.digitalchickenlabs.OctoQuad;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -40,7 +42,15 @@ public class LibraryMain {
 
     public Rev2mDistanceSensor distanceSensor;
 
+    public OctoQuad odometryComputer;
+
     public boolean leftToggleToggle;
+
+    public final int LEFT_ODOM = 0;
+
+    public final int RIGHT_ODOM = 1;
+
+    public final int CENTER_ODOM = 2;
 
     public LibraryMain(OpMode opMode, Drive drive) {
 
@@ -81,12 +91,18 @@ public class LibraryMain {
 
                 allMotors =  new DcMotor[] {motorBL, motorBR, motorFL, motorFR};
 
+                odometryComputer = hwMap.get(OctoQuad.class, "Odometry Computer");
 
+                odometryComputer.setSingleEncoderDirection(LEFT_ODOM, OctoQuad.EncoderDirection.REVERSE);
+                odometryComputer.setSingleEncoderDirection(RIGHT_ODOM, OctoQuad.EncoderDirection.FORWARD);
+                odometryComputer.setSingleEncoderDirection(CENTER_ODOM, OctoQuad.EncoderDirection.FORWARD);
 
                 //declaring name of servos to hwMap
 
                 motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
                 motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
 
                // servo1 = hwMap.servo.get("servo1");
 
