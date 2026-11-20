@@ -15,13 +15,21 @@ public class LibraryOdometry {
 
     public LibraryAuton libraryAuton;
 
-    double thetaX;
+    double deltaX;
 
-    double thetaY;
+    double deltaY;
 
     double phi;
 
-    double trackwidth = 12; //idk the distance (forward offset)
+    double x_pos = 0;
+
+    double y_pos = 0;
+
+    double heading = 0;
+
+    double trackwidth = 12; //idk the width of the robot
+
+    double forwardOffset = 0; //idk the offset
 
     public LibraryOdometry(LibraryMain libraryMain, LibraryTeleOp libraryTeleOp, LibraryAuton libraryAuton) {
 
@@ -61,7 +69,12 @@ public class LibraryOdometry {
         double deltaRightEncoderPos = libraryMain.odometryComputer.readSinglePosition_Caching(libraryMain.RIGHT_ODOM) - preRightEncoderPos;
         double deltaCenterEncoderPos = libraryMain.odometryComputer.readSinglePosition_Caching(libraryMain.CENTER_ODOM) - preCenterEncoderPos;
 
-        phi = deltaLeftEncoderPos - deltaRightEncoderPos;
+        phi = (deltaLeftEncoderPos - deltaRightEncoderPos) / trackwidth;
+        double delta_middle_pos = (deltaLeftEncoderPos + deltaRightEncoderPos) / 2;
+        double delta_perp_pos = deltaCenterEncoderPos - forwardOffset * phi;
+
+        deltaX = delta_middle_pos * Math.cos(heading) - delta_perp_pos * Math.sin(heading);
+        thetaY =
     }
 
 }
