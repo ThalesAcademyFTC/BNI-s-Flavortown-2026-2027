@@ -45,15 +45,15 @@ public class Teleop extends OpMode {
 
          libraryTeleOp = new LibraryTeleOp(libraryMain);
 
-         libraryCamera.initializeAprilTag();
+         //libraryCamera.initializeAprilTag();
      }
 
 
      public void loop() {
 
-         pose = libraryCamera.tagReferencePositionFromBlue();
+         //pose = libraryCamera.tagReferencePositionFromBlue();
 
-         //no comment
+         //no comment <3
 
          double x = (gamepad1.left_stick_x*.75);
          double y = (-gamepad1.left_stick_y*.75);
@@ -62,4 +62,5 @@ public class Teleop extends OpMode {
          libraryTeleOp.robotMovement(x,y,turn);
 
      }
+
  }

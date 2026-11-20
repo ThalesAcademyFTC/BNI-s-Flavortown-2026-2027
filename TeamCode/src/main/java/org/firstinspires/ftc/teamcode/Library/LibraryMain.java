@@ -91,11 +91,11 @@ public class LibraryMain {
 
                 allMotors =  new DcMotor[] {motorBL, motorBR, motorFL, motorFR};
 
-                odometryComputer = hwMap.get(OctoQuad.class, "Odometry Computer");
+               // odometryComputer = hwMap.get(OctoQuad.class, "Odometry Computer");
 
-                odometryComputer.setSingleEncoderDirection(LEFT_ODOM, OctoQuad.EncoderDirection.REVERSE);
-                odometryComputer.setSingleEncoderDirection(RIGHT_ODOM, OctoQuad.EncoderDirection.FORWARD);
-                odometryComputer.setSingleEncoderDirection(CENTER_ODOM, OctoQuad.EncoderDirection.FORWARD);
+               // odometryComputer.setSingleEncoderDirection(LEFT_ODOM, OctoQuad.EncoderDirection.REVERSE);
+                //odometryComputer.setSingleEncoderDirection(RIGHT_ODOM, OctoQuad.EncoderDirection.FORWARD);
+                //odometryComputer.setSingleEncoderDirection(CENTER_ODOM, OctoQuad.EncoderDirection.FORWARD);
 
                 //declaring name of servos to hwMap
 

@@ -31,6 +31,10 @@ public class LibraryOdometry {
 
     double forwardOffset = 0; //idk the offset
 
+    double preLeftEncoderPos = 0;
+    double preRightEncoderPos = 0;
+    double preCenterEncoderPos = 0;
+
     public LibraryOdometry(LibraryMain libraryMain, LibraryTeleOp libraryTeleOp, LibraryAuton libraryAuton) {
 
         this.libraryMain = libraryMain;
@@ -59,22 +63,33 @@ public class LibraryOdometry {
 
     }
 
-    public Pose3D distanceFromStart(double x, double y, double angle) {
+    public void distanceFromStart() {
 
-        double preLeftEncoderPos = 0;
-        double preRightEncoderPos = 0;
-        double preCenterEncoderPos = 0;
+        double leftEncoderPose = libraryMain.odometryComputer.readSinglePosition_Caching(libraryMain.LEFT_ODOM);
+        double rightEncoderPose = libraryMain.odometryComputer.readSinglePosition_Caching(libraryMain.RIGHT_ODOM);
+        double centerEncoderPose = libraryMain.odometryComputer.readSinglePosition_Caching(libraryMain.CENTER_ODOM);
 
-        double deltaLeftEncoderPos = libraryMain.odometryComputer.readSinglePosition_Caching(libraryMain.LEFT_ODOM) - preLeftEncoderPos;
-        double deltaRightEncoderPos = libraryMain.odometryComputer.readSinglePosition_Caching(libraryMain.RIGHT_ODOM) - preRightEncoderPos;
-        double deltaCenterEncoderPos = libraryMain.odometryComputer.readSinglePosition_Caching(libraryMain.CENTER_ODOM) - preCenterEncoderPos;
+        double deltaLeftEncoderPos = leftEncoderPose - preLeftEncoderPos;
+        double deltaRightEncoderPos = rightEncoderPose - preRightEncoderPos;
+        double deltaCenterEncoderPos = centerEncoderPose - preCenterEncoderPos;
 
         phi = (deltaLeftEncoderPos - deltaRightEncoderPos) / trackwidth;
         double delta_middle_pos = (deltaLeftEncoderPos + deltaRightEncoderPos) / 2;
         double delta_perp_pos = deltaCenterEncoderPos - forwardOffset * phi;
 
         deltaX = delta_middle_pos * Math.cos(heading) - delta_perp_pos * Math.sin(heading);
-        thetaY =
-    }
+        deltaY = delta_middle_pos * Math.sin(heading) + delta_perp_pos * Math.cos(heading);
 
+        x_pos += deltaX;
+        y_pos += deltaY;
+        heading += phi;
+
+        preLeftEncoderPos = leftEncoderPose;
+        preRightEncoderPos = rightEncoderPose;
+        preCenterEncoderPos = centerEncoderPose;
+
+        libraryMain.telemetry.addData("X position from 0: ", x_pos);
+        libraryMain.telemetry.addData("Y position from 0: ", y_pos);
+        libraryMain.telemetry.addData("Heading/Angle from 0: ", heading);
+    }
 }
